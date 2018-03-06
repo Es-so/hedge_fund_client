@@ -9,7 +9,6 @@ import  { MyForm }  from '../../components/Form';
 import  { FormAddCustomer } from '../../forms/FormAddCustomer';
 
 import actions from '../../actions';
-import '../../styles/App.css';
 
 
 class Customers extends React.Component {
@@ -23,18 +22,17 @@ class Customers extends React.Component {
   saveFormRef = (form) => {
     this.form = form;
   };
-
-
+  
 	render() {
     const { customers, deposit } = this.props;
-    const { archiveCustomer, addDepositCustomer, addCustomer } = this.props.actions.customers;
-    console.log(addCustomer)
+    const { deleteCustomer, addDepositCustomer, addCustomer } = this.props.actions.customers;
+
 		return( 
         <div>
 				<div style={{ margin: "1%", padding:"1%", float: "left", width: '47%', height: '100%' }}>
 				{
           customers.map((obj, key) => {
-            return(  <div key={ key }> <CardComponent addDepositCustomer={ addDepositCustomer } archiveArchive={ archiveCustomer }  deposit={ deposit } customers={ obj } /> </div>)
+            return(  <div key={ key }> <CardComponent addDepositCustomer={ addDepositCustomer } deleteCustomer={ deleteCustomer }  deposit={ deposit } customers={ obj } /> </div>)
           })
         }
 				</div>
@@ -55,7 +53,7 @@ Customers.propTypes = {
     getCustomers: PropTypes.func,
     createCustomer: PropTypes.func,
     addDepositCustomer: PropTypes.func,
-    archiveCustomer: PropTypes.func,
+    deleteCustomer: PropTypes.func,
     addCustomer: PropTypes.func,
   }),
 	customers: PropTypes.array,

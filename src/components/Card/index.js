@@ -13,6 +13,8 @@ const IndexCards = [
 	}
 ];
 
+
+
 const InfosCard = ({ data: { firstname, lastname, mail, phone, start_date } }) => 
 <div>
 	Firstname: { firstname }<br/>
@@ -27,20 +29,21 @@ const contentSelector = (index, data) => ({
 		tab2: <div> Deposit </div>,
 	})[index]
 
-
 class CardComponent extends Component {
 	state = {
 		key: 'tab1'
 	}
+
 	onTabChange = key => this.setState({ key })
 
 	render() {
-		const { customers } = this.props;
+		const { customers,  deleteCustomer, addDepositCustomer } = this.props;
+
 		return (
 			<Card
 				style={{ width: '99%' , float: "left", marginTop: "2%" }}
 				title={customers.firstname + ' ' + customers.lastname}
-				// extra={ <div><a onClick={(selected) => this.addDepositHandle(key)}>Add deposit</a> <a style={{marginLeft: 10}} onClick={(selected) => this.archiveCustomer(key)}>Archive</a></div>}
+				extra={ <div> <a style={{marginLeft: 10}} onClick={(selected) => deleteCustomer(customers.idcustomers)}>Delete</a></div>}
 				tabList={ IndexCards }
 				onTabChange={this.onTabChange}
 			> 
@@ -63,3 +66,4 @@ CardComponent.defaultProps = {
 
 export default CardComponent;
 
+// <a onClick={(selected) => this.addDepositHandle(key)}>Add deposit</a>

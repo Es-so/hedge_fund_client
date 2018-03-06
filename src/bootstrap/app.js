@@ -6,8 +6,7 @@ import generateStore from './generateStore';
 // import registerServiceWorker from './registerServiceWorker';
 import RouterComponent from './router';
 
-import '../styles/App.css';
-
+import 'antd/dist/antd.css'
 
 /**
  * Init app
@@ -16,9 +15,9 @@ import '../styles/App.css';
 
 
 const App = () => (
-  <Provider store={ generateStore() }>
-    <RouterComponent />
-  </Provider>
+	<Provider store={ generateStore() }>
+		<RouterComponent />
+	</Provider>
 );
 
 // registerServiceWorker();
