@@ -13,31 +13,26 @@ const IndexCards = [
 	}
 ];
 
-const InfosCard = (props) => 
+const InfosCard = ({ data: { firstname, lastname, mail, phone, start_date } }) => 
 <div>
-	Firstname: { props.data.firstname }<br/>
-	Lastname: { props.data.lastname }<br/>
-	Mail: { props.data.mail }<br/>
-	Phone: { props.data.phone }<br/>
-	Start date: { props.data.start_date }
+	Firstname: { firstname }<br/>
+	Lastname: { lastname }<br/>
+	Mail: { mail }<br/>
+	Phone: { phone }<br/>
+	Start date: { start_date }
 </div>;
 
-const contentSelector = (index, data) => {
-	let content = {
+const contentSelector = (index, data) => ({
 		tab1: <InfosCard data={ data } />,
 		tab2: <div> Deposit </div>,
-	}
-	return(content[index])
-}
+	})[index]
 
 
 class CardComponent extends Component {
 	state = {
 		key: 'tab1'
 	}
-	onTabChange = (key) => {
-		this.setState( { key: key } )
-	}
+	onTabChange = key => this.setState({ key })
 
 	render() {
 		const { customers } = this.props;
@@ -47,11 +42,9 @@ class CardComponent extends Component {
 				title={customers.firstname + ' ' + customers.lastname}
 				// extra={ <div><a onClick={(selected) => this.addDepositHandle(key)}>Add deposit</a> <a style={{marginLeft: 10}} onClick={(selected) => this.archiveCustomer(key)}>Archive</a></div>}
 				tabList={ IndexCards }
-				onTabChange={ (index) => { this.onTabChange(index); } }
+				onTabChange={this.onTabChange}
 			> 
-			{
-				contentSelector(this.state.key, customers)
-			}
+			{contentSelector(this.state.key, customers)}
 			</Card> 
 		)
 	}
