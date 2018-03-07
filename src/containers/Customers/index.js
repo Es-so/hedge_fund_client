@@ -10,30 +10,38 @@ import  { FormAddCustomer } from '../../forms/FormAddCustomer';
 
 import actions from '../../actions';
 
+const cumstomerStl = {
+  margin: "1%",
+  padding:"1%",
+  float: "left",
+  width: '47%',
+  height: '100%',
+};
 
 class Customers extends React.Component {
 
 	constructor(props) {
 		super(props)
     const { getCustomersData, getCustomersDeposit } = this.props.actions.customers;
-    getCustomersData();
-    getCustomersDeposit();
+    Promise.all([getCustomersData, getCustomersDeposit])
+      .catch(console.error) // => todo => set error modal/notifs for err information
 	}
-  saveFormRef = (form) => {
-    this.form = form;
-  };
+  saveFormRef = (form) => (this.form = form);
   
 	render() {
-    const { customers, deposit } = this.props;
-    const { deleteCustomer, addDepositCustomer, addCustomer } = this.props.actions.customers;
-
+    const { customers, deposit, action: { deleteCustomer, addDepositCustomer, addCustomer } } = this.props
 		return( 
         <div>
-				<div style={{ margin: "1%", padding:"1%", float: "left", width: '47%', height: '100%' }}>
-				{
-          customers.map((obj, key) => {
-            return(  <div key={ key }> <CardComponent addDepositCustomer={ addDepositCustomer } deleteCustomer={ deleteCustomer }  deposit={ deposit } customers={ obj } /> </div>)
-          })
+				<div style={customerStl}>
+				{customers && customers.map((obj, key) =>
+		(<div key={ key }>
+		 <CardComponent
+		   addDepositCustomer={addDepositCustomer}
+		   deleteCustomer={deleteCustomer}
+		   deposit={deposit}
+		   customers={obj}
+		 />
+		 </div>))
         }
 				</div>
         <div style={{ margin: "1%", padding:"1%", float: "left", width: '47%', height: '100%' }}>
@@ -63,12 +71,10 @@ Customers.propTypes = {
 Customers.defaultProps = {
   actions: null,
   customers: [],
-  deposit: []
+  deposit: [],
 };
 
-const mapStateToProps = ({ customers }) => ({
-  customers: customers.customers, deposit: customers.deposit
-})
+const mapStateToProps = ({ customers: { customers, deposit} }) => ({ customers, deposit })
 
 const mapDispatchToProps = dispatch => ({
   actions: {
